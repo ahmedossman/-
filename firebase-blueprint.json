@@ -1,0 +1,125 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Enterprise investor or admin user profile",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string", "enum": ["ADMIN", "INVESTOR", "ANALYST", "GUEST"] },
+        "language": { "type": "string", "enum": ["EN", "AR"] },
+        "theme": { "type": "string", "enum": ["DARK", "LIGHT"] },
+        "riskProfile": { "type": "string", "enum": ["CONSERVATIVE", "BALANCED", "AGGRESSIVE"] },
+        "baseCurrency": { "type": "string", "enum": ["EGP", "USD"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["uid", "displayName", "email", "role"]
+    },
+    "Portfolio": {
+      "title": "User Portfolio",
+      "description": "User investment portfolio container",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "name": { "type": "string" },
+        "totalValueEGP": { "type": "number" },
+        "totalCostEGP": { "type": "number" },
+        "totalProfitLossEGP": { "type": "number" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["userId", "name"]
+    },
+    "Transaction": {
+      "title": "Asset Transaction",
+      "description": "Buy, sell, or deposit transaction record",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "type": { "type": "string", "enum": ["BUY", "SELL", "DEPOSIT", "WITHDRAW"] },
+        "assetType": { "type": "string", "enum": ["GOLD", "USD_CASH", "EGP_CASH", "BANK_CERTIFICATE", "EGX_STOCKS", "SILVER", "CRYPTO", "REAL_ESTATE"] },
+        "purity": { "type": "string", "enum": ["24K", "21K", "18K", "SOVEREIGN_COIN", "BAR_24K"] },
+        "weightGrams": { "type": "number" },
+        "pricePerGramOrUnitEGP": { "type": "number" },
+        "totalAmountEGP": { "type": "number" },
+        "workmanshipFeePerGramEGP": { "type": "number" },
+        "date": { "type": "string" },
+        "notes": { "type": "string" }
+      },
+      "required": ["userId", "type", "assetType", "totalAmountEGP", "date"]
+    },
+    "GoldPrice": {
+      "title": "Gold & Market Price Feed",
+      "description": "Market prices for gold 24K, 21K, 18K, Ounce, USD/EGP",
+      "type": "object",
+      "properties": {
+        "goldOunceUSD": { "type": "number" },
+        "usdEgpOfficial": { "type": "number" },
+        "usdEgpParallel": { "type": "number" },
+        "gold24kEGP": { "type": "number" },
+        "gold21kEGP": { "type": "number" },
+        "gold18kEGP": { "type": "number" },
+        "goldPoundEGP": { "type": "number" },
+        "cbeInterestRate": { "type": "number" },
+        "headlineInflation": { "type": "number" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["gold21kEGP", "gold24kEGP", "usdEgpOfficial", "timestamp"]
+    },
+    "AISignal": {
+      "title": "AI Market Signal",
+      "description": "AI-generated buy/sell signals and target levels",
+      "type": "object",
+      "properties": {
+        "goldSignal": { "type": "string", "enum": ["STRONG_BUY", "BUY", "HOLD", "TAKE_PROFIT", "SELL"] },
+        "confidenceScore": { "type": "number" },
+        "targetPrice21kEGP": { "type": "number" },
+        "stopLoss21kEGP": { "type": "number" },
+        "summary": { "type": "string" },
+        "macroDrivers": { "type": "array" },
+        "riskRating": { "type": "string" },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["goldSignal", "confidenceScore", "targetPrice21kEGP", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "Enterprise Audit Log",
+      "description": "System event and security audit trail",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["userId", "action", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile document"
+    },
+    "/users/{userId}/portfolios/{portfolioId}": {
+      "schema": { "$ref": "#/entities/Portfolio" },
+      "description": "User portfolios"
+    },
+    "/users/{userId}/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "User portfolio transactions"
+    },
+    "/gold_prices/{priceId}": {
+      "schema": { "$ref": "#/entities/GoldPrice" },
+      "description": "Historical and live gold price recordings"
+    },
+    "/ai_signals/{signalId}": {
+      "schema": { "$ref": "#/entities/AISignal" },
+      "description": "AI generated trading signals"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Audit security log events"
+    }
+  }
+}

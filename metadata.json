@@ -1,0 +1,6 @@
+{
+  "name": "Gold Portfolio Hub Enterprise",
+  "description": "Enterprise investment intelligence and portfolio platform focused on the Egyptian gold market, USD/EGP, certificates, and multi-asset analytics with Gemini AI insights.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

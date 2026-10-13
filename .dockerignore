@@ -1,0 +1,15 @@
+node_modules
+.git
+.gitignore
+.env
+.env.local
+.vscode
+.idea
+coverage
+tests
+*.md
+vitest.config.ts
+bun.lock
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
